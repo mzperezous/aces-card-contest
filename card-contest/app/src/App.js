@@ -1,11 +1,12 @@
-// PACES card contest wallet: 3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM
+// Card contest PACES wallet address: 3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM
+// PACES token mint address: CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT
 
 // React, react-router, and react-bootstrap imports
 import React, { useState, useEffect, useMemo } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 // Solana-specific imports
-import { clusterApiUrl } from '@solana/web3.js';
+import { clusterApiUrl, Connection } from '@solana/web3.js';
 import {
   getLedgerWallet,
   getPhantomWallet,
@@ -26,6 +27,8 @@ import Game from './pages/Game/Game';
 
 const App = () => {
   const wallet = useWallet();
+  const connection = new Connection("https://api.mainnet-beta.solana.com/");
+  let pacesAddress = "Gj9GCwBoVwR2wqaKHCkrAYQtTpyPSfwLU4WjsoJMqQ8m"; // TODO: Change from ACESMINT to PACES
 
   const now = new Date();
   const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
@@ -46,6 +49,8 @@ const App = () => {
 
   const [ rankings, setRankings ] = useState(false);
   const [ reloadRankings, setReloadRankings ] = useState(0);
+  const [ pacesBalance, setPacesBalance ] = useState();
+  const [ reloadPaces, setReloadPaces ] = useState(0);
 
   // Get current game rankings
   useEffect(() => {
@@ -55,6 +60,13 @@ const App = () => {
         else setRankings([]);
     })
   }, [wallet, gameId, reloadRankings, setRankings]);
+
+  // Get PACES balance
+  useEffect(() => {
+    connection.getParsedTokenAccountsByOwner(wallet, {mint: pacesAddress})
+      .then(accounts => console.log(accounts));
+
+  }, [wallet, gameId, reloadPaces, setPacesBalance]);
 
   return (
     <>

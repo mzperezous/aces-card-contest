@@ -22,8 +22,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start-client": "react-scripts start",
-    "build": "react-scripts build && cp -R build ../web2/client/",
+    "start": "react-scripts start",
+    "build": "rm -rf ../web2/client/build && react-scripts build && cp -R build ../web2/client/ && rm -rf build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
