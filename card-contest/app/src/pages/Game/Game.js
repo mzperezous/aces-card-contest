@@ -10,12 +10,7 @@ import Rules from './Rules';
 import styles from '../../css/Game.module.css';
 
 const Game = (props) => {
-    const wallet = props.wallet;
-    const gameId = props.gameId;
-    const rankings = props.rankings;
-    const setRankings = props.setRankings;
-    const reloadRankings = props.reloadRankings;
-    const setReloadRankings = props.setReloadRankings;
+    const { wallet, gameId, rankings, setRankings, reloadRankings, setReloadRankings, pacesBalance, setReloadPaces } = props;
 
     const [ isProfileOpen, setIsProfileOpen ] = useState(false);
     const [ isRulesOpen, setIsRulesOpen ] = useState(false);
@@ -41,7 +36,7 @@ const Game = (props) => {
                 <div className={styles.GameArea}>
                     <Header user={true} onProfileClick={() => setIsProfileOpen(true)}/>
                     <Dashboard 
-                        wallet={wallet.publicKey.toString()} 
+                        wallet={wallet} 
                         gameId={gameId} 
                         rankings={rankings} 
                         rank={rank} 
@@ -49,14 +44,30 @@ const Game = (props) => {
                         setRankings={setRankings} 
                         setRank={setRank}
                         setReloadRankings={setReloadRankings}
+                        pacesBalance={pacesBalance}
+                        setReloadPaces={setReloadPaces}
                     />
                 </div>
                 <div className={styles.Rankings}>
-                    <Leaderboard wallet={wallet.publicKey.toString()} gameId={gameId} rankings={rankings} rank={rank} setIsRulesOpen={setIsRulesOpen}/>
+                    <Leaderboard 
+                        wallet={wallet} 
+                        gameId={gameId} 
+                        rankings={rankings} 
+                        rank={rank} 
+                        setIsRulesOpen={setIsRulesOpen}
+                    />
                 </div>
             </div>
-            <Profile wallet={wallet.publicKey.toString()} isProfileOpen={isProfileOpen} setIsProfileOpen={setIsProfileOpen}/>
-            <Rules isRulesOpen={isRulesOpen} setIsRulesOpen={setIsRulesOpen}/>
+            <Profile 
+                wallet={wallet} 
+                isProfileOpen={isProfileOpen} 
+                setIsProfileOpen={setIsProfileOpen} 
+                pacesBalance={pacesBalance}
+            />
+            <Rules 
+                isRulesOpen={isRulesOpen} 
+                setIsRulesOpen={setIsRulesOpen}
+            />
         </div>
     ) : (
         <Navigate to="/"/>

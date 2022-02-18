@@ -5,17 +5,15 @@ import { getRecentGames } from '../../api/users';
 import styles from '../../css/Profile.module.css';
 
 const Profile = (props) => {
-    const wallet = props.wallet;
-    const isProfileOpen = props.isProfileOpen;
-    const setIsProfileOpen = props.setIsProfileOpen;
+    const { wallet, isProfileOpen, setIsProfileOpen, pacesBalance } = props;
 
     const [ recentGames, setRecentGames ] = useState();
 
     useEffect(() => {
-        getRecentGames(wallet).then(history => {
+        getRecentGames(wallet.publicKey.toString()).then(history => {
             setRecentGames(history);
         })
-    }, [wallet, setRecentGames]);
+    }, [wallet.publicKey, setRecentGames]);
 
     return (
         <div className={isProfileOpen ? styles.ProfileBlock : styles.ProfileNone}>
@@ -24,7 +22,7 @@ const Profile = (props) => {
                 <div className={styles.ProfileInner}>
                     <div>
                         <p>Wallet ID</p>
-                        <p style={{ overflow: "hidden", textOverflow: "ellipsis", maxWidth: "50%" }}>{wallet}</p>
+                        <p style={{ overflow: "hidden", textOverflow: "ellipsis", maxWidth: "50%" }}>{wallet.publicKey.toString()}</p>
                     </div>
                     <div>
                         <p>Games played:</p>
@@ -32,7 +30,7 @@ const Profile = (props) => {
                     </div>
                     <div>
                         <p>Coin balance:</p>
-                        <p>Coming soon!</p>
+                        <p>{pacesBalance}</p>
                     </div>
                     <div>
                         <p>Contest history:</p>
@@ -55,7 +53,7 @@ const Profile = (props) => {
                                     )
                                 )
                             ) : (
-                                <p>Play your first game!</p>
+                                <></>
                             )
                         }
                         </div>

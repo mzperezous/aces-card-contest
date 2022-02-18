@@ -4,6 +4,7 @@
   "proxy": "http://localhost:5001",
   "private": true,
   "dependencies": {
+    "@solana/spl-token": "^0.2.0",
     "@solana/wallet-adapter-react": "^0.13.1",
     "@solana/wallet-adapter-react-ui": "^0.6.1",
     "@solana/wallet-adapter-wallets": "^0.11.3",
@@ -12,9 +13,10 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
-    "process": "^0.11.10",
     "react": "^17.0.2",
+    "react-app-rewired": "^2.2.1",
     "react-dom": "^17.0.2",
+    "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
@@ -22,9 +24,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "rm -rf ../web2/client/build && react-scripts build && cp -R build ../web2/client/ && rm -rf build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "rm -rf ../web2/client/build && react-app-rewired build && cp -R build ../web2/client/ && rm -rf build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "resolutions": {

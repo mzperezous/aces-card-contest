@@ -6,7 +6,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 // Solana-specific imports
-import { clusterApiUrl, Connection } from '@solana/web3.js';
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import {
   getLedgerWallet,
   getPhantomWallet,
@@ -25,10 +25,10 @@ import { getGameRankings } from './api/games';
 import Home from './pages/Home/Home';
 import Game from './pages/Game/Game';
 
+const pacesAddress = new PublicKey("Gj9GCwBoVwR2wqaKHCkrAYQtTpyPSfwLU4WjsoJMqQ8m"); // TODO: change from ACES MINT to PACES address (top)
+
 const App = () => {
   const wallet = useWallet();
-  const connection = new Connection("https://api.mainnet-beta.solana.com/");
-  let pacesAddress = "Gj9GCwBoVwR2wqaKHCkrAYQtTpyPSfwLU4WjsoJMqQ8m"; // TODO: Change from ACESMINT to PACES
 
   const now = new Date();
   const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
@@ -63,17 +63,33 @@ const App = () => {
 
   // Get PACES balance
   useEffect(() => {
-    connection.getParsedTokenAccountsByOwner(wallet, {mint: pacesAddress})
-      .then(accounts => console.log(accounts));
 
-  }, [wallet, gameId, reloadPaces, setPacesBalance]);
+    if (wallet.publicKey) {
+      let connection = new Connection(clusterApiUrl("mainnet-beta"));
+
+      connection.getParsedTokenAccountsByOwner(wallet.publicKey, {mint: pacesAddress})
+        .then(accounts => {setPacesBalance(accounts.value[0].account.data.parsed.info.tokenAmount.amount || 0); console.log(accounts)});
+    }
+
+  }, [wallet, reloadPaces, setPacesBalance]);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<Home wallet={wallet}/>}/>
         <Route path="/play" 
-          element={<Game wallet={wallet} gameId={gameId} rankings={rankings} setRankings={setRankings} reloadRankings={reloadRankings} setReloadRankings={setReloadRankings}/>}
+          element={
+            <Game 
+              wallet={wallet} 
+              gameId={gameId} 
+              rankings={rankings} 
+              setRankings={setRankings} 
+              reloadRankings={reloadRankings} 
+              setReloadRankings={setReloadRankings}
+              pacesBalance={pacesBalance}
+              setReloadPaces={setReloadPaces}
+            />
+          }
         />
       </Routes>
     </>

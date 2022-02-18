@@ -3,12 +3,8 @@ import { useState, useEffect } from 'react';
 import styles from '../../css/Leaderboard.module.css';
 
 const Leaderboard = (props) => {
-    const rankings = props.rankings;
-    const rank = props.rank;
-    const wallet = props.wallet;
-    const gameId = props.gameId;
-    const setIsRulesOpen = props.setIsRulesOpen;
-
+    const { rankings, rank, wallet, gameId, setIsRulesOpen } = props;
+    
     let gameType;
     if (gameId.substring(8) === "deuceswild") gameType = "Deuces Wild";
     else if (gameId.substring(8) === "4swild") gameType = "4's Wild";
@@ -31,7 +27,7 @@ const Leaderboard = (props) => {
             // Find user's entry and match with rank
             let match = -1;
             for (let i = 0; i < res.length; i++) {
-                if (res[i].user === wallet) {
+                if (res[i].user === wallet.publicKey.toString()) {
                     match = i; 
                     break;
                 }
@@ -47,7 +43,7 @@ const Leaderboard = (props) => {
                 setRankingsToShow(res);
             }
         }
-    }, [rankings, rank, wallet, setRankingsToShow]);
+    }, [rankings, rank, wallet.publicKey, setRankingsToShow]);
 
     return (
         <div className={styles.LeaderboardContainer}>
