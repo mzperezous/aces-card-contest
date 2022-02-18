@@ -8,8 +8,8 @@ import styles from '../../css/Dashboard.module.css';
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 const entryFee = 50;
-const pacesAddress = new PublicKey("CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT"); // TODO: change from ACES MINT to PACES address (top)
-const toWalletAddress = new PublicKey("3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM"); // TODO: change to 3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM
+const pacesAddress = new PublicKey("CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT");
+const toWalletAddress = new PublicKey("3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM");
 
 const Dashboard = (props) => {
     const { wallet, gameId, rank, setRank, rankings, setRankings, reloadRankings, setReloadRankings, pacesBalance, reloadPaces, setReloadPaces } = props;
@@ -89,34 +89,40 @@ const Dashboard = (props) => {
 
                                 wallet.signTransaction(tx)
                                     .then(signedTx => {
-                                        connection.sendRawTransaction(signedTx.serialize())
-                                            .then(signature => {
-                                                console.log(`${entryFee} PACES transferred to ${toWalletPubkey.toString()}. Tx signature: ${signature}`);
-                                                
-                                                playGame(wallet.publicKey, gameId)
-                                                    .then(entry => {
-                                                        if (entry && entry !== {}) {
-                                                            setAcesCards(entry.aces);
-                                                            setWildCards(entry.wildCards);
-                                                            if (wallet.publicKey) {
-                                                                getGameRankings(gameId).then(entries => {
-                                                                    setRankings(entries);
-                                                                    if (entries) {
-                                                                        let r = entries.map(e => e.user).indexOf(wallet.publicKey.toString());
-                                                                        setRank(r === -1 ? "?" : r + 1);
-                                                                        if (r !== -1) setBestHand(entries[r]); 
-                                                                    }
-                                                                })
+
+                                        playGame(wallet.publicKey, gameId)
+                                            .then(entry => {
+
+                                                if (entry && entry !== {}) {
+                                                    setAcesCards(entry.aces);
+                                                    setWildCards(entry.wildCards);
+
+                                                    if (wallet.publicKey) {
+                                                        getGameRankings(gameId).then(entries => {
+                                                            setRankings(entries);
+                                                            if (entries) {
+                                                                let r = entries.map(e => e.user).indexOf(wallet.publicKey.toString());
+                                                                setRank(r === -1 ? "?" : r + 1);
+                                                                if (r !== -1) setBestHand(entries[r]); 
                                                             }
-                                                            console.log("setting state");
-                                                            setReloadRankings(reloadRankings + 1);
-                                                            setReloadPaces(reloadPaces + 1);
-                                                            setPlayAgainButton("PLAY AGAIN");
-                                                            console.log("state set")
-                                                        }
-                                                });
-                                            })
-                                            .catch(e => console.log("Failed sending transaction."));
+                                                        })
+                                                    }
+
+                                                    console.log("setting state");
+                                                    setReloadRankings(reloadRankings + 1);
+                                                    setReloadPaces(reloadPaces + 1);
+                                                    setPlayAgainButton("PLAY AGAIN");
+                                                    console.log("state set");
+
+                                                    // Transfer tokens after entry is confirmed
+                                                    connection.sendRawTransaction(signedTx.serialize())
+                                                        .then(signature => {
+                                                            console.log(`${entryFee} PACES transferred to ${toWalletPubkey.toString()}. Tx signature: ${signature}`);
+                                                            
+                                                        })
+                                                        .catch(e => console.log("Failed sending transaction."));
+                                                }
+                                        });
                                     })
                                     .catch(e => {
                                         setPlayAgainButton("PLAY AGAIN"); 
