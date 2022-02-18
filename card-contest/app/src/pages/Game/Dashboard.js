@@ -8,8 +8,8 @@ import styles from '../../css/Dashboard.module.css';
 
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 const entryFee = 50;
-const pacesAddress = new PublicKey("Gj9GCwBoVwR2wqaKHCkrAYQtTpyPSfwLU4WjsoJMqQ8m"); // TODO: change from ACES MINT to PACES address (top)
-const toWalletAddress = new PublicKey("CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT"); // TODO: change to 3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM
+const pacesAddress = new PublicKey("CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT"); // TODO: change from ACES MINT to PACES address (top)
+const toWalletAddress = new PublicKey("3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM"); // TODO: change to 3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM
 
 const Dashboard = (props) => {
     const { wallet, gameId, rank, setRank, rankings, setRankings, reloadRankings, setReloadRankings, pacesBalance, reloadPaces, setReloadPaces } = props;
