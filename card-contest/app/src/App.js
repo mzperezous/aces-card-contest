@@ -25,7 +25,7 @@ import { getGameRankings } from './api/games';
 import Home from './pages/Home/Home';
 import Game from './pages/Game/Game';
 
-const pacesAddress = new PublicKey("Gj9GCwBoVwR2wqaKHCkrAYQtTpyPSfwLU4WjsoJMqQ8m"); // TODO: change from ACES MINT to PACES address (top)
+const pacesAddress = new PublicKey("CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT");
 
 const App = () => {
   const wallet = useWallet();
