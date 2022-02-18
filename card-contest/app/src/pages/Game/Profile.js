@@ -6,6 +6,7 @@ import styles from '../../css/Profile.module.css';
 
 const Profile = (props) => {
     const { wallet, isProfileOpen, setIsProfileOpen, pacesBalance } = props;
+    console.log(pacesBalance);
 
     const [ recentGames, setRecentGames ] = useState();
 
