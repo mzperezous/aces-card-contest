@@ -30,7 +30,7 @@ const Profile = (props) => {
                     </div>
                     <div>
                         <p>Coin balance:</p>
-                        <p>{pacesBalance}</p>
+                        <p>{pacesBalance || 0}</p>
                     </div>
                     <div>
                         <p>Contest history:</p>
