@@ -54,7 +54,7 @@ const Dashboard = (props) => {
     // Create a game entry request
     const createEntry = () => {
         setPlayAgainButton("Thinking...");
-        let connection = new Connection(clusterApiUrl("mainnet-beta"));
+        let connection = new Connection('https://solana-api.projectserum.com');
 
         // Pay entry fee then play
         let pacesMint = new PublicKey(pacesAddress);

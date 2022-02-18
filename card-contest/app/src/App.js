@@ -65,7 +65,7 @@ const App = () => {
   useEffect(() => {
 
     if (wallet.publicKey) {
-      let connection = new Connection(clusterApiUrl("mainnet-beta"));
+      let connection = new Connection('https://solana-api.projectserum.com');
 
       connection.getParsedTokenAccountsByOwner(wallet.publicKey, {mint: pacesAddress})
         .then(accounts => {setPacesBalance(accounts.value[0].account.data.parsed.info.tokenAmount.amount || 0); console.log(accounts)})
@@ -98,20 +98,14 @@ const App = () => {
 }
 
 const AppWithProvider = () => {
-  const network = WalletAdapterNetwork.Mainnet;
-  const endpoint = clusterApiUrl(network);
+  const endpoint = 'https://solana-api.projectserum.com';
 
   const walletOptions = useMemo(() => [
     getPhantomWallet(),
     getSlopeWallet(),
     getSolflareWallet(),
-    getTorusWallet({
-      options: { clientId: 'Get a client ID @ https://developer.tor.us' }
-  }),
-    getLedgerWallet(),
-    getSolletWallet({ network }),
-    getSolletExtensionWallet({ network }),
-  ], [network]);
+    getLedgerWallet()
+  ], []);
 
   return (
     <ConnectionProvider endpoint={endpoint}>

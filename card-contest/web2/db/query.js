@@ -9,7 +9,7 @@ const collectionDscr = process.env.COLLECTION_DSCR || "The Aces NFT";
 const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
 async function getAcesTokens(pubkey, limit=false) {
-    const endpoint = "https://api.mainnet-beta.solana.com/";
+    const endpoint = 'https://solana-api.projectserum.com';
     //const endpoint = "https://api.devnet.solana.com/";
     const connection = new Connection(endpoint);
 
