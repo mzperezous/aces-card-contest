@@ -12,33 +12,39 @@ const rank = (a, b) => {
     let handB = Hand.solve(b.map(card => `${card.face === "10" ? "T" : card.face[0].toUpperCase()}${card.suit[0]}`), gameType);
 
     // Five of a kind check
-    let facesA = [...new Set(a.map(card => card.face.toLowerCase().trim()).sort((a,b) => faceOrder.indexOf(b[0].toUpperCase()) - faceOrder.indexOf(a[0].toUpperCase())))];
-    let facesB = [...new Set(b.map(card => card.face.toLowerCase().trim()).sort((a,b) => faceOrder.indexOf(b[0].toUpperCase()) - faceOrder.indexOf(a[0].toUpperCase())))];
+    let facesA = [...new Set(a
+        .map(card => card.face.toLowerCase().trim())
+        .filter(face => face !== "0"))];
+    let facesB = [...new Set(b
+        .map(card => card.face.toLowerCase().trim())
+        .filter(face => face !== "0"))];
 
-    // If they're both 5 of a kind, check face value. Consider non-wild 5 of a kind first.
-    if (facesA.length === 1 && facesB.length === 1) {
-        // 5 of a kind aces with wilds beats everything but 5 of a kind aces
-        if (facesA[0] === "0" && facesB[0] !== "0" && facesB[0][0].toUpperCase() !== "A") return -1;
-        else if (facesB[0] === "0" && facesA[0] !== "0" && facesA[0][0].toUpperCase() !== "A") return 1;
-        
-        return faceOrder.indexOf(facesB[0][0].toUpperCase()) - faceOrder.indexOf(facesA[0][0].toUpperCase());
+    let wildsA = a
+        .map(card => card.face.toLowerCase().trim())
+        .filter(face => face === "0");
+    let wildsB = b
+        .map(card => card.face.toLowerCase().trim())
+        .filter(face => face === "0");
+
+    // Compare two 5 of a kinds
+    if (facesA.length === 1 && facesB.length === 1) { 
+
+        // Natural check
+        if (wildsA.length === 0 && wildsB.length === 0) {
+            return faceOrder.indexOf(facesB[0][0]) - faceOrder.indexOf(facesA[0][0]);
+        }
+        else if (wildsA.length === 0) {
+            return -1;
+        }
+        else if (wildsB.length === 0) {
+            return 1;
+        }
+
+        // Wild check
+        return faceOrder.indexOf(facesB[0][0]) - faceOrder.indexOf(facesA[0][0]);
     }
-    else if (facesA.length === 1) {
-        return -1;
-    }
-    else if (facesB.length === 1) {
-        return 1;
-    } 
-    // Wild 5 of a kinds
-    else if (facesA.length === 2 && facesA.indexOf("0") !== -1 && facesB.length === 2 && facesB.indexOf("0") !== -1){
-        return faceOrder.indexOf(facesB[0][0].toUpperCase()) - faceOrder.indexOf(facesA[0][0].toUpperCase());
-    }
-    else if (facesA.length === 2 && facesA.indexOf("0") !== -1) {
-        return -1;
-    }
-    else if (facesB.length === 2 && facesB.indexOf("0") !== -1) {
-        return 1;
-    } 
+    else if (facesA.length === 1) return -1;
+    else if (facesB.length === 1) return 1;
 
     return handA.compare(handB);
 }
