@@ -28,7 +28,7 @@ function rankHand(tokens, gameType, wildCards) {
 
     // Handle wild cards (joker-type, not table cards): add one hand per possible value with each card pointing at the original wild card's image
     let wilds;
-    if (gameType === "deuceswild") {
+    if (gameType === "deuceswild" || gameType === "2swild") {
         wilds = ["2", "joker"];
     }
     else if (gameType === "4swild") {
@@ -39,6 +39,9 @@ function rankHand(tokens, gameType, wildCards) {
     }
     else if (gameType === "8swild") {
         wilds = ["8", "joker"];
+    }
+    else if (gameType === "6swild") {
+        wilds = ["6", "joker"]
     }
     else wilds = ["joker"];
 
