@@ -163,7 +163,7 @@ const Dashboard = (props) => {
                                                         card.image ? (
                                                             <img src={card.image} alt={card.face + " of " + card.suit}/>
                                                         ) : (
-                                                            <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
+                                                            <img src={`/images/wildCards/${card.face.toUpperCase()}${card.suit}.png`} alt={card.face.toUpperCase() + " of " + card.suit}/>
                                                         )
                                                     }
                                                 </div>
