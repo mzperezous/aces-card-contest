@@ -33,15 +33,15 @@ const App = () => {
   const now = new Date();
   const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
 
-  const gameType = "2swild";
+  //const gameType = "2swild";
   // if ([ "24", "25", "26", "27", "28", "29", "30" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "deuceswild";
   // else if ([ "31", "01", "02", "03", "04", "05", "06" ].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "4swild";
   // else if (["08", "09", "10", "11", "12", "13"].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "secretwild";
   // else if (["14", "15", "16", "17"].indexOf(String(utc.getDate()).padStart(2, '0')) !== -1) gameType = "8swild";
-  // else gameType = "5card";
+  const gameType = "5card";
 
-  //const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth()).padStart(2,'0') + String(utc.getFullYear()) + gameType;
-  const gameId = "tourney0" + gameType;
+  const gameId = String(utc.getDate()).padStart(2,'0') + String(utc.getMonth() + 1).padStart(2,'0') + String(utc.getFullYear()) + gameType;
+ // const gameId = "tourney0" + gameType;
   
   const [ rankings, setRankings ] = useState(false);
   const [ reloadRankings, setReloadRankings ] = useState(0);

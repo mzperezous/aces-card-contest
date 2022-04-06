@@ -10,7 +10,7 @@ const faceRankings = [ "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "
 
 const now = new Date();
 const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
-const entryFee = 25;
+const entryFee = 5;
 
 const pacesAddress = new PublicKey("CdQseFmnPh2JBiz5747dJ6oYXK9NKnbdFRfiXTcZuaXT");
 const toWalletAddress = new PublicKey("3y5BXpxZsKqEab8HNYVx2MN77bkiZmCtpZ74RnXkrqjM");
