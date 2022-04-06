@@ -2,3 +2,4 @@ mint-test-collection/
 preview/
 
 .vercel
+card-contest/.env
