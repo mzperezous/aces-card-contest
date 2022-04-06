@@ -210,7 +210,7 @@ const Dashboard = (props) => {
                     {
                         wildCards.map( (card, i) => 
                             <div key={i} className={styles.Card}>
-                                <img src={`/images/wildCards/${card.face}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
+                                <img src={`/images/wildCards/${card.face.toUpperCase()}${card.suit}.png`} alt={card.face + " of " + card.suit}/>
                             </div>
                         )
                     }
